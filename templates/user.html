@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+{% block content %}
+<h2>{{ user.first_name }} {{ user.last_name }}'s Profile</h2>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<a href="{{ url_for('logout') }}" class="btn btn-secondary mb-4">Logout</a>
+
+<h3>Feedback</h3>
+<ul class="list-group">
+  {% for feedback in feedbacks %}
+    <li class="list-group-item mb-2">
+      <strong>{{ feedback.title }}</strong> - {{ feedback.content }}
+      <div class="mt-2">
+        <a href="{{ url_for('update_feedback', feedback_id=feedback.id) }}" class="btn btn-sm btn-primary">Edit</a>
+        <form action="{{ url_for('delete_feedback', feedback_id=feedback.id) }}" method="POST" style="display:inline;">
+          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+        </form>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+<a href="{{ url_for('add_feedback', username=user.username) }}" class="btn btn-sm btn-success mt-4">Add Feedback</a>
+{% endblock %}
